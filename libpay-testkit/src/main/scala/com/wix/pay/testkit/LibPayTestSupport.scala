@@ -40,13 +40,21 @@ trait LibPayTestSupport {
     last = "Some Last Name"
   )
 
+  private val someClientEnv = ClientEnv(
+    userAgent = Some("Some User Agent"),
+    referrer = Some("https://some.business.com/pay"),
+    deviceId = Some("some-device-id")
+  )
+
   val someCustomer = Customer(
     phone = Some("123456789"),
     email = Some("some@email.com"),
     name = Some(someCustomerName),
     ipAddress = Some("111.222.333.444"),
     fax = Some("987654321"),
-    company = Some("Some Customer Company")
+    company = Some("Some Customer Company"),
+    buyerId = Some("some-buyer-id"),
+    clientEnv = Some(someClientEnv)
   )
 
   private val someShippingAddressDetailed = AddressDetailed(
@@ -209,8 +217,30 @@ trait LibPayTestSupport {
     def withoutCompany: Customer = withCompany(None)
     def withCompany(company: String): Customer = withCompany(Some(company))
     def withCompany(company: Option[String]): Customer = o.copy(company = company)
+
+    def withoutBuyerId: Customer = withBuyerId(None)
+    def withBuyerId(buyerId: String): Customer = withBuyerId(Some(buyerId))
+    def withBuyerId(buyerId: Option[String]): Customer = o.copy(buyerId = buyerId)
+
+    def withoutClientEnv: Customer = withClientEnv(None)
+    def withClientEnv(clientEnv: ClientEnv): Customer = withClientEnv(Some(clientEnv))
+    def withClientEnv(clientEnv: Option[ClientEnv]): Customer = o.copy(clientEnv = clientEnv)
   }
   
+  implicit class ClientEnvTestExtensions(o: ClientEnv) {
+    def withoutUserAgent: ClientEnv = withUserAgent(None)
+    def withUserAgent(userAgent: String): ClientEnv = withUserAgent(Some(userAgent))
+    def withUserAgent(userAgent: Option[String]): ClientEnv = o.copy(userAgent = userAgent)
+
+    def withoutReferrer: ClientEnv = withReferrer(None)
+    def withReferrer(referrer: String): ClientEnv = withReferrer(Some(referrer))
+    def withReferrer(referrer: Option[String]): ClientEnv = o.copy(referrer = referrer)
+
+    def withoutDeviceId: ClientEnv = withDeviceId(None)
+    def withDeviceId(deviceId: String): ClientEnv = withDeviceId(Some(deviceId))
+    def withDeviceId(deviceId: Option[String]): ClientEnv = o.copy(deviceId = deviceId)
+  }
+
   implicit class NameTestExtensions(o: Name) {
     def withFirst(first: String): Name = o.copy(first = first)
     def withLast(last: String): Name = o.copy(last = last)

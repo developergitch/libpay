@@ -13,7 +13,9 @@ case class Customer(name: Option[Name] = None,
                     email: Option[String] = None,
                     ipAddress: Option[String] = None,
                     fax: Option[String] = None,
-                    company : Option[String] = None) {
+                    company: Option[String] = None,
+                    buyerId: Option[String] = None,
+                    clientEnv: Option[ClientEnv] = None) {
   def firstName : Option[String] = {
     name map (_.first)
   }
